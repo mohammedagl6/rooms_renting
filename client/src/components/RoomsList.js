@@ -3,9 +3,9 @@ import { useContext } from 'react'
 import { context } from '../context/context'
 
 const RoomsList = () => {
-    const {state} = useContext(context);
-    const {rooms} = state;
-    if (!rooms.length){
+    const {state: { filteredRooms }} = useContext(context);
+    
+    if (!filteredRooms.length){
         return(
             <div className="empty-search">
                 <h3>unfortunately no rooms matched your search parameters</h3>
@@ -15,7 +15,7 @@ const RoomsList = () => {
     return (
         <section className="roomsList">
             <div className="roomsList-center">
-                {rooms.map(room => <Room room={room} key={room._id} />)}
+                {filteredRooms.map(room => <Room room={room} key={room._id} />)}
             </div>
         </section>
     )

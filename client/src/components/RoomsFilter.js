@@ -1,10 +1,11 @@
 import { useContext, useEffect, useState } from 'react'
+import { filterRooms } from '../actions/roomActions'
 import { context } from '../context/context'
 import City from './City'
 
 
 const RoomsFilter = () => {
-    const {state: {rooms}} = useContext( context )
+    const {state: {rooms}, dispatch} = useContext( context )
     
     const {minPrice, maxPrice} = rooms.reduce((minMax, room) => {
         if(minMax.minPrice > room.price) minMax.minPrice = room.price
@@ -13,13 +14,26 @@ const RoomsFilter = () => {
     }, {minPrice: 0, maxPrice: 0})
 
     const [price, setPrice] = useState(maxPrice)
+    const [city, setCity] = useState('');
 
     useEffect(()=> {
         setPrice(maxPrice)
     }, [maxPrice])
    
-    const handleChange = (e)=>{
-        setPrice(e.target.value)
+    const handleChange = async (e)=>{
+
+        if(e.target.name === 'price') {
+            setPrice(e.target.value)
+            filterRooms(rooms, city, e.target.value, dispatch)
+        }
+        if(e.target.name === 'city') {
+            setCity(e.target.value)
+            filterRooms(rooms, e.target.value, price, dispatch)
+        }
+            
+
+        
+        
     }
     return (
         <section className="filter-container">
@@ -28,7 +42,7 @@ const RoomsFilter = () => {
                 <div />
             </div>
             <form className="filter-form">
-                <City filter={true} />
+                <City filter={true} handleChange={ handleChange }/>
                 <div className="form-group">
                     <label htmlFor="price">Room Price ${price}</label>
                     <input 
