@@ -4,6 +4,7 @@ import reducer from "./reducer";
 
 const initialState = {
     rooms: [],
+    filteredRooms: [],
     user: {},
     isLoading: true,
 }

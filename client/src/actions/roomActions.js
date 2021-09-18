@@ -1,4 +1,4 @@
-import { CREATE_ROOM, END_LOADING, GET_ROOMS, START_LOADING } from "../constants/constants"
+import { CREATE_ROOM, END_LOADING, GET_ROOMS, START_LOADING, FILTER_ROOMS } from "../constants/constants"
 
 
 const url = process.env.REACT_APP_API_URL + 'room';
@@ -58,4 +58,13 @@ export const getCities = async () => {
         console.log(error)
         return []
     }
+}
+
+export const filterRooms = (rooms, city, price, dispatch) => {
+    const filteredRooms = rooms.filter(room => {
+        return (room.price <= price) && ( !city || room.city === city )
+    })
+    console.log(rooms)
+    console.log(filteredRooms)
+    dispatch({ type: FILTER_ROOMS , payload: filteredRooms})
 }
