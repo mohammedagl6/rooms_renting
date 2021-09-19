@@ -87,7 +87,7 @@ const AddRoom = () => {
                         <textarea value={room.description} onChange={handleChange} col="5" rows="7" name="description" id="description" className="form-control" />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="image">upload images:
+                        <label htmlFor="image">upload image:
                             <input 
                                 type="file" 
                                 name="image" 

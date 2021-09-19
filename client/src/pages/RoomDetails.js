@@ -21,9 +21,11 @@ const RoomDetails = () => {
         }
         fetchRoom()
     }, [roomId, dispatch])
+    
     if(state.isLoading) return <Loading />
+
     const {price, street, house, city, image, description} = room;
-    console.log(room)
+   
     if(!city){
         return(
             <div className="error">

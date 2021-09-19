@@ -1,4 +1,4 @@
-import { CREATE_ROOM, END_LOADING, GET_ROOMS, START_LOADING, FILTER_ROOMS } from "../constants/constants.js";
+import { CREATE_ROOM, END_LOADING, GET_ROOMS, START_LOADING, FILTER_ROOMS, SET_USER } from "../constants/constants.js";
 
 
 
@@ -18,6 +18,9 @@ const reducer = (state, action) => {
 
         case FILTER_ROOMS:
             return {...state, filteredRooms: action.payload}
+
+        case SET_USER:
+            return {...state, user: action.payload}
 
         default:
             throw new Error('There is no action matches');
