@@ -64,7 +64,5 @@ export const filterRooms = (rooms, city, price, dispatch) => {
     const filteredRooms = rooms.filter(room => {
         return (room.price <= price) && ( !city || room.city === city )
     })
-    console.log(rooms)
-    console.log(filteredRooms)
     dispatch({ type: FILTER_ROOMS , payload: filteredRooms})
 }
