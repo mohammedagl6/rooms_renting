@@ -7,7 +7,8 @@ const roomSchema = mongoose.Schema({
     city: {type: String, required: true},
     image: {type: String, required: true},
     description: String,
-    createdAt: {type: Date, default: new Date()}
+    createdAt: {type: Date, default: new Date()},
+    ownerId: {type: String, required: true},
 })
 
 

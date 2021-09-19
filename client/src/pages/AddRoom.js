@@ -8,7 +8,7 @@ import City from "../components/City"
 
 const AddRoom = () => {
 
-    const {dispatch} = useContext(context);
+    const {state: {user}, dispatch} = useContext(context);
     
     const [room, setRoom] = useState({
         price: 0,
@@ -43,7 +43,7 @@ const AddRoom = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const status = await createRoom(room, dispatch);
+        const status = await createRoom(room, user, dispatch);
         if(status){
             setRoom({
                 price: 0,

@@ -3,11 +3,11 @@ import { CREATE_ROOM, END_LOADING, GET_ROOMS, START_LOADING, FILTER_ROOMS } from
 
 const url = process.env.REACT_APP_API_URL + 'room';
 
-export const createRoom = async (room, dispatch) => {
+export const createRoom = async (room, user, dispatch) => {
     try {
         const response = await fetch(url, {
             method: "POST",
-            headers: {'Content-Type': 'application/json'},
+            headers: {'Content-Type': 'application/json', authorization: `Bearer ${user?.token}`},
             body: JSON.stringify(room)
         });
         const data = await response.json();

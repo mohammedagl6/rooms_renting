@@ -3,8 +3,9 @@ import Room from '../models/Room.js'
 
 
 export const createRoom = async (req, res) => {
+    if(!req?.userId) return res.status(401).json({success:false, msg:"You are not authorized to do this action!"})
     const room = req.body;
-    const newRoom = new Room({...room, createdAt: new Date().toISOString()});
+    const newRoom = new Room({...room, createdAt: new Date().toISOString(), ownerId: req.userId});
     try {
         await newRoom.save();
         res.status(200).json({success:true, result:newRoom})
