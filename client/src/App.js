@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import RoomDetails from './pages/RoomDetails';
 import Error from './pages/Error'
 import AddRoom from './pages/AddRoom'
+import Protected from './pages/Protected';
 
 
 const  App = () => {
@@ -17,7 +18,9 @@ const  App = () => {
            <Home />
          </Route>
          <Route exact path="/room/create">
-           <AddRoom />
+           <Protected>
+             <AddRoom />
+           </Protected>
          </Route>
          <Route exact path="/room/:id" >
            <RoomDetails />
