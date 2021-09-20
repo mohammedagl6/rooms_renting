@@ -10,3 +10,6 @@ export const END_LOADING = 'END_LOADING'
 export const FILTER_ROOMS = 'FILTER_ROOMS'
 
 export const SET_USER = 'SET_USER'
+
+export const DELETE_ROOM = 'DELETE_ROOM'
+export const UPDATE_ROOM = 'UPDATE_ROOM'

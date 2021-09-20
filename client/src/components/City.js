@@ -3,7 +3,7 @@ import { getCities } from '../actions/roomActions'
 
 
 
-const City = ({ filter, handleChange }) => {
+const City = ({ filter, handleChange, cityValue}) => {
     const [cities, setCities] = useState([])
     useEffect(() => {
         const populateCityMenu = async () => {
@@ -18,7 +18,7 @@ const City = ({ filter, handleChange }) => {
             <label htmlFor="city">City</label>
             <select id="city" name="city" className="form-control" onChange={handleChange}>
                 <option value=''>{filter ? 'All' : 'Select City'}</option>
-                {cities.map( city => <option key={city._id}>{city.name}</option> )}
+                {cities.map( city => <option key={city._id} selected={city.name === cityValue}>{city.name}</option> )}
             </select>
         </div>
     )

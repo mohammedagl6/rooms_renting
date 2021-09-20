@@ -1,4 +1,4 @@
-import { CREATE_ROOM, END_LOADING, GET_ROOMS, START_LOADING, FILTER_ROOMS } from "../constants/constants"
+import { CREATE_ROOM, END_LOADING, GET_ROOMS, START_LOADING, FILTER_ROOMS, DELETE_ROOM, UPDATE_ROOM } from "../constants/constants"
 
 
 const url = process.env.REACT_APP_API_URL + 'room';
@@ -11,7 +11,7 @@ export const createRoom = async (room, user, dispatch) => {
             body: JSON.stringify(room)
         });
         const data = await response.json();
-        dispatch({type: CREATE_ROOM, payload:data.result})
+        if(data.success) dispatch({type: CREATE_ROOM, payload:data.result})
         return data.success;
     } catch (error) {
         console.log(error)
@@ -19,6 +19,23 @@ export const createRoom = async (room, user, dispatch) => {
     }
 }
 
+export const updateRoom = async (room, user, dispatch) => {
+    console.log("room", room)
+    try {
+        const response = await fetch(url, {
+            method: "PATCH",
+            headers: {'Content-Type': 'application/json', authorization: `Bearer ${user?.token}`},
+            body: JSON.stringify(room)
+        })
+        const data = await response.json()
+        console.log("data", data)
+       if(data.success) dispatch({type: UPDATE_ROOM, payload: data.result})
+       return data.success
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
 
 export const getRooms = async (dispatch) => {
     dispatch({type: START_LOADING})
@@ -65,4 +82,22 @@ export const filterRooms = (rooms, city, price, dispatch) => {
         return (room.price <= price) && ( !city || room.city === city )
     })
     dispatch({ type: FILTER_ROOMS , payload: filteredRooms})
+}
+
+export const deleteRoom = async (roomId, dispatch) => {
+    try {
+        const response = await fetch(url, {
+            method: "DELETE",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({id: roomId})
+        })
+        const data = await response.json()
+        if(data.success){
+            dispatch({type: DELETE_ROOM, payload: roomId})
+        }
+        return data.success
+    } catch (error) {
+        console.log(error)
+        return false
+    }
 }
