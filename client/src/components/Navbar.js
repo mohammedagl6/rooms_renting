@@ -8,6 +8,7 @@ import { context } from "../context/context"
 import { logout, setUser } from '../actions/userActions'
 import decode from "jwt-decode"
 import { Avatar } from '@material-ui/core'
+import DropMenu from './DropMenu'
 
 const Navbar = () => {
     const { state: { user }, dispatch } = useContext( context )
@@ -52,7 +53,7 @@ const Navbar = () => {
                         ? 
                             <>
                             <Avatar>{user.result.name.charAt(0)}</Avatar>
-                            <button onClick={()=> logout(dispatch)}>Logout</button> 
+                            <DropMenu />
                             </>
                         :
                             <>

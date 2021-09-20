@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Route }  from "react-router-dom"
 import Home from './pages/Home';
 import RoomDetails from './pages/RoomDetails';
 import Error from './pages/Error'
-import AddRoom from './pages/AddRoom'
+import MyRooms from './pages/MyRooms'
 import Protected from './pages/Protected';
 
 
@@ -19,7 +19,12 @@ const  App = () => {
          </Route>
          <Route exact path="/room/create">
            <Protected>
-             <AddRoom />
+             <MyRooms />
+           </Protected>
+         </Route>
+         <Route exact path="/room/book">
+           <Protected>
+             <MyRooms />
            </Protected>
          </Route>
          <Route exact path="/room/:id" >

@@ -78,7 +78,8 @@ h6 {
 .error {
   text-align: center;
   text-transform: uppercase;
-  margin: 2rem 0;
+  padding: 5rem 0;
+  /* margin: 2rem 0; */
 }
 .empty-search {
   text-align: center;
@@ -96,7 +97,7 @@ h6 {
   width: 100%;
   padding: 0.75rem 2rem;
   background: var(--offWhite);
-  z-index: 1;
+  z-index: 2;
 }
 .nav-header {
   display: flex;
@@ -119,15 +120,16 @@ h6 {
   transition: var(--mainTransition);
   /* list-style-type: none; */
   display: flex;
+  align-items: center;
 }
-.nav-links button {
+.nav-links button, a.menu-link {
   display: block;
-  /* text-decoration: none; */
+  text-decoration: none;
   margin-left: 1rem;
-  padding: 0.5rem 0;
+  padding: 0.9rem 0;
   color: var(--mainBlack);
   transition: var(--mainTransition);
-  text-align: center;
+  /* text-align: center; */
   font-size: 1rem;
   font-weight: 600;
   letter-spacing: var(--mainSpacing);
@@ -135,7 +137,7 @@ h6 {
   background: transparent;
   cursor: pointer;
 }
-.nav-links button:hover {
+.nav-links button:hover , a.menu-link:hover{
   color: var(--primaryColor);
 }
 
@@ -152,7 +154,7 @@ h6 {
     /* display: flex; */
   }
   
-  .nav-links button {
+  .nav-links button, a.menu-link {
     margin-left: 1rem;
     
   }
@@ -183,6 +185,8 @@ h6 {
 .room {
   box-shadow: var(--lightShadow);
   transition: var(--mainTransition);
+  background: var(--lightGreen);
+  position: relative;
 }
 .room:hover {
   box-shadow: var(--darkShadow);
@@ -520,3 +524,118 @@ svg.upload-images{
 }
 /* end of modal */
 
+/* drop menu */
+.menu-container {
+  position: relative;
+}
+.drop-menu{
+  position: fixed;
+  top: 65px;
+  right:20px;
+  background-color: #fff;
+  z-index: 3;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 0 10px 0 rgb(0 22 63 / 15%);
+  -webkit-box-shadow: 0 0 10px 0 rgb(0 22 63 / 15%);
+  border: 1px solid #f3f9f9;
+}
+.drop-menu:before {
+  right: 16px;
+  bottom: 100%;
+  position: absolute;
+  width: 0;
+  height: 0;
+  content: "";
+  z-index: 2;
+  border-bottom: 8px solid #fff;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+}
+.drop-menu button, .drop-menu a {
+  margin-left: 0;
+}
+svg.btn-menu {
+  font-size: 2.3rem;
+  margin-left: 5px;
+  cursor: pointer;
+}
+@media screen and (min-width: 1228px) {
+  .drop-menu{
+    right: calc((100vw - 1170px) / 2);
+  }
+}
+/* end of drop menu */
+
+/* user rooms */
+
+.userRooms-title {
+  margin: 2rem auto;
+  width: 80vw;
+}
+@media screen and (min-width: 776px) {
+  .userRooms-title {
+    width: 90vw;
+  }
+}
+@media screen and (min-width: 992px) {
+  .userRooms-title {
+    width: 95vw;
+    max-width: 1170px;
+  }
+}
+.userRooms-title h3 {
+  text-transform: capitalize;
+  letter-spacing: var(--mainSpacing);
+}
+.edit-icon {
+  position: absolute;
+  right: 0;
+  color:white;
+  z-index: 1;
+  cursor: pointer;
+  background-color: rgb(0 22 63 / 15%);
+  border-bottom-left-radius: 70%;
+}
+.edit-menu {
+  position: absolute;
+  z-index: 1;
+  top: 45px;
+  right: -9px;
+  background-color: #fff;
+  border-radius: 9px;
+  padding: 10px;
+  box-shadow: 0 0 10px 0 rgb(0 22 63 / 15%);
+  -webkit-box-shadow: 0 0 10px 0 rgb(0 22 63 / 15%);
+  border: 1px solid #f3f9f9;
+}
+.edit-menu::before {
+  right: 16px;
+  bottom: 100%;
+  position: absolute;
+  width: 0;
+  height: 0;
+  content: "";
+  z-index: 2;
+  border-bottom: 8px solid #fff;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+}
+.edit-menu button {
+  display: block;
+  text-decoration: none;
+  padding: 0.5rem 0;
+  color: var(--mainBlack);
+  transition: var(--mainTransition);
+  /* text-align: center; */
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: var(--mainSpacing);
+  border: transparent;
+  background: transparent;
+  cursor: pointer;
+}
+.edit-menu button:hover {
+  color: var(--primaryColor);
+}
+/* end of user rooms */
