@@ -16,9 +16,9 @@ const City = ({ filter, handleChange, cityValue}) => {
     return(
       (cities.length > 0) &&  <div className="form-group">
             <label htmlFor="city">City</label>
-            <select id="city" name="city" className="form-control" onChange={handleChange}>
-                <option value=''>{filter ? 'All' : 'Select City'}</option>
-                {cities.map( city => <option key={city._id} selected={city.name === cityValue}>{city.name}</option> )}
+            <select id="city" name="city" className="form-control" onChange={handleChange} value={cityValue}>
+                <option value='' >{filter ? 'All' : 'Select City'}</option>
+                {cities.map( city => <option key={city._id} value={city.name}>{city.name}</option> )}
             </select>
         </div>
     )

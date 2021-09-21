@@ -6,9 +6,19 @@ import RoomDetails from './pages/RoomDetails';
 import Error from './pages/Error'
 import MyRooms from './pages/MyRooms'
 import Protected from './pages/Protected';
+import { useContext, useEffect } from 'react';
+import { getRooms } from './actions/roomActions';
+import { context } from './context/context';
 
 
 const  App = () => {
+
+  const {dispatch} = useContext(context)
+    useEffect(() => {
+        getRooms(dispatch)
+        console.log("dispatch changed")
+    }, [dispatch])
+
   return (
     <>
      <Router>

@@ -6,12 +6,12 @@ import { context } from '../context/context';
 import { deleteRoom } from '../actions/roomActions';
 
 const UserRoom = ({room, setRoom}) => {
-    const {dispatch} = useContext( context )
+    const {state: {user}, dispatch} = useContext( context )
     const { _id : roomId, price, street, city, image } = room
     const [isMenuOpen, setIsMenuOpen] = useState(false)
 
     const handleDelete = async (roomId) => {
-        const status = await deleteRoom(roomId, dispatch)
+        const status = await deleteRoom(roomId, user, dispatch)
         if(status){
             alert("The room deleted successfully")
         }else{

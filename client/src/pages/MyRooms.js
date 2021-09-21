@@ -2,11 +2,13 @@ import { useContext , useState} from "react"
 import RoomForm from "../components/RoomForm"
 import { context } from "../context/context"
 import UserRoom from "../components/UserRoom"
+import Loading from "../components/Loading"
 
 
 
 const MyRooms = () => {
-    const {state: { rooms }} = useContext( context )
+    const {state: { rooms, user, isLoading }} = useContext( context )
+
     const [room, setRoom] = useState({
         price: 0,
         street: '',
@@ -17,6 +19,11 @@ const MyRooms = () => {
         _id: null,
     });
 
+    const userId = user?.result?.googleId || user?.result?._id
+    const userRooms = rooms.filter(room => room.ownerId === userId)
+    console.log("rooms", rooms)
+    console.log("userRooms", userRooms)
+    console.log("userId", user)
     return (
         <>
         <section className="form-container">
@@ -30,14 +37,15 @@ const MyRooms = () => {
             <div className="userRooms-title">
                 <h3>Added Rooms: </h3>
             </div>
-            {!rooms.length ?
-            <div className="empty-search">
-                <h3>No rooms added yet!</h3>
-            </div>
-            :
-            <div className="roomsList-center">
-            {rooms.map(room => <UserRoom room={room} key={room._id} setRoom={setRoom}/>)}
-            </div>  
+            { isLoading ? <Loading /> :
+                !userRooms.length ?
+                <div className="empty-search">
+                    <h3>No rooms added yet!</h3>
+                </div>
+                :
+                <div className="roomsList-center">
+                {userRooms.map(room => <UserRoom room={room} key={room._id} setRoom={setRoom}/>)}
+                </div>  
             }
         </section>
         </>

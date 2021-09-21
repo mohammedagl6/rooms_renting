@@ -20,7 +20,7 @@ export const createRoom = async (room, user, dispatch) => {
 }
 
 export const updateRoom = async (room, user, dispatch) => {
-    console.log("room", room)
+    
     try {
         const response = await fetch(url, {
             method: "PATCH",
@@ -28,7 +28,6 @@ export const updateRoom = async (room, user, dispatch) => {
             body: JSON.stringify(room)
         })
         const data = await response.json()
-        console.log("data", data)
        if(data.success) dispatch({type: UPDATE_ROOM, payload: data.result})
        return data.success
     } catch (error) {
@@ -84,11 +83,11 @@ export const filterRooms = (rooms, city, price, dispatch) => {
     dispatch({ type: FILTER_ROOMS , payload: filteredRooms})
 }
 
-export const deleteRoom = async (roomId, dispatch) => {
+export const deleteRoom = async (roomId, user, dispatch) => {
     try {
         const response = await fetch(url, {
             method: "DELETE",
-            headers: {'Content-Type': 'application/json'},
+            headers: {'Content-Type': 'application/json', authorization: `Bearer ${user?.token}`},
             body: JSON.stringify({id: roomId})
         })
         const data = await response.json()
