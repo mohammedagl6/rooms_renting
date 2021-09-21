@@ -37,7 +37,7 @@ const RoomDetails = () => {
         )
     }
     return(
-        <>
+        <div className="container">
             <section className="single-room">
                 <div className="single-room-images">
                     <img src={image} alt={`${street}, ${city}`} />
@@ -54,8 +54,11 @@ const RoomDetails = () => {
                         <h6>Added: {moment(createdAt).fromNow()} </h6>
                     </article>
                 </div>
+                <div className="btn-container">
+                    <Link to={`/room/book/${roomId}`} className="btn-primary">Book This room</Link>
+                </div>
             </section>
-        </>
+        </div>
     )
 
 }

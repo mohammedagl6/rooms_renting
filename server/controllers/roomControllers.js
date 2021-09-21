@@ -70,3 +70,17 @@ export const deleteRoom = async (req, res) => {
     }
 
 }
+
+export const bookRoom = async (req, res) => {
+    if(!req?.userId) return res.status(401).json({success:false, msg: "You are not authorized to do this action."})
+    const {id: _id} = req.body
+    try {
+        const result = await Room.findById(_id);
+        if (!result) return res.status(404).json({success:false, msg: "No room with this id"})
+        const updatedRoom = await Room.findByIdAndUpdate(_id, { bookedBy: req.userId}, {new: true})
+        res.status(200).json({success:true, result: updatedRoom})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({success:false, msg: "Something went wrong. Try later"})
+    }
+}

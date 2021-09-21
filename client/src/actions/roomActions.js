@@ -1,4 +1,4 @@
-import { CREATE_ROOM, END_LOADING, GET_ROOMS, START_LOADING, FILTER_ROOMS, DELETE_ROOM, UPDATE_ROOM } from "../constants/constants"
+import { CREATE_ROOM, END_LOADING, GET_ROOMS, START_LOADING, FILTER_ROOMS, DELETE_ROOM, UPDATE_ROOM, BOOK_ROOM } from "../constants/constants"
 
 
 const url = process.env.REACT_APP_API_URL + 'room';
@@ -41,7 +41,9 @@ export const getRooms = async (dispatch) => {
     try {
         const response = await fetch(url);
         const data = await response.json();
-        dispatch({type: GET_ROOMS, payload: data.result})
+        if(data.success){
+            dispatch({type: GET_ROOMS, payload: data.result})
+        }
     } catch (error) {
         console.log(error)
     }
@@ -97,6 +99,27 @@ export const deleteRoom = async (roomId, user, dispatch) => {
         return data.success
     } catch (error) {
         console.log(error)
+        return false
+    }
+}
+
+export const bookRoom = async (id, user, dispatch) => {
+    dispatch({type: START_LOADING})
+    try {
+        const response = await fetch(url+"/book", {
+            method: "POST",
+            headers: {'Content-Type': 'application/json', authorization: `Bearer ${user?.token}`},
+            body: JSON.stringify({id})
+        })
+        const data = await response.json()
+        if(data.success){
+            dispatch({type:BOOK_ROOM, payload: data.result})
+        }
+        dispatch({type: END_LOADING})
+        return data.success
+    } catch (error) {
+        console.log(error)
+        dispatch({type: END_LOADING})
         return false
     }
 }

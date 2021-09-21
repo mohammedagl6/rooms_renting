@@ -13,3 +13,5 @@ export const SET_USER = 'SET_USER'
 
 export const DELETE_ROOM = 'DELETE_ROOM'
 export const UPDATE_ROOM = 'UPDATE_ROOM'
+
+export const BOOK_ROOM = 'BOOK_ROOM'
