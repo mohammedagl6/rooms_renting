@@ -16,7 +16,6 @@ const  App = () => {
   const {dispatch} = useContext(context)
     useEffect(() => {
         getRooms(dispatch)
-        console.log("dispatch changed")
     }, [dispatch])
 
   return (

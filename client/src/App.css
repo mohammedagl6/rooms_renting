@@ -202,7 +202,7 @@ h6 {
   transition: var(--mainTransition);
   height: 100%;
 }
-.price-top {
+.price-top, .time-top {
   position: absolute;
   top: 0;
   left: 0;
@@ -213,6 +213,14 @@ h6 {
   font-size: 0.5rem;
   text-align: center;
   transition: var(--mainTransition);
+}
+.time-top{
+  right: 0;
+  left: auto;
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 0;
+  opacity: .5;
+  font-size: .7rem;
 }
 .price-top h6 {
   margin-bottom: 0;
@@ -233,7 +241,7 @@ h6 {
 .img-container:hover img {
   opacity: 0.3;
 }
-.img-container:hover .price-top {
+.img-container:hover .price-top, .img-container:hover .time-top {
   opacity: 0;
 }
 .img-container:hover .room-link {
