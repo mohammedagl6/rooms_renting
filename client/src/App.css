@@ -88,6 +88,9 @@ h6 {
   padding: 1rem;
   letter-spacing: var(--mainSpacing);
 }
+.container {
+  padding: 5rem 0;
+}
 /* end of globals */
 /* Navbar */
 .navbar {
@@ -162,6 +165,7 @@ h6 {
 /* end of navbar */
 
 /* Title */
+
 .section-title {
   text-align: center;
   margin-bottom: 4rem;
@@ -647,3 +651,13 @@ svg.btn-menu {
   color: var(--primaryColor);
 }
 /* end of user rooms */
+
+/* room booking */
+.checkout-card{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+/* end of room booking */

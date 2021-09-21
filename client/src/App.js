@@ -9,6 +9,8 @@ import Protected from './pages/Protected';
 import { useContext, useEffect } from 'react';
 import { getRooms } from './actions/roomActions';
 import { context } from './context/context';
+import BookRoom from './pages/BookRoom';
+import MyBookings from './pages/Mybookings';
 
 
 const  App = () => {
@@ -31,9 +33,14 @@ const  App = () => {
              <MyRooms />
            </Protected>
          </Route>
-         <Route exact path="/room/book">
+         <Route exact path="/room/book/:id">
            <Protected>
-             <MyRooms />
+             <BookRoom />
+           </Protected>
+         </Route>
+         <Route exact path="/room/bookings">
+           <Protected>
+             <MyBookings />
            </Protected>
          </Route>
          <Route exact path="/room/:id" >

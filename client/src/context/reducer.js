@@ -1,4 +1,4 @@
-import { CREATE_ROOM, END_LOADING, GET_ROOMS, START_LOADING, FILTER_ROOMS, SET_USER, DELETE_ROOM, UPDATE_ROOM } from "../constants/constants.js";
+import { CREATE_ROOM, END_LOADING, GET_ROOMS, START_LOADING, FILTER_ROOMS, SET_USER, DELETE_ROOM, UPDATE_ROOM, BOOK_ROOM } from "../constants/constants.js";
 
 
 
@@ -26,7 +26,11 @@ const reducer = (state, action) => {
             return{...state, rooms: state.rooms.filter(room => room._id !== action.payload)}
 
         case UPDATE_ROOM:
-            return{...state, rooms: [action.payload, ...state.rooms.filter(room => room._id !== action.payload._id)]}   
+            return{...state, rooms: [action.payload, ...state.rooms.filter(room => room._id !== action.payload._id)]}
+        
+        case BOOK_ROOM:
+            return{...state, rooms: [action.payload, ...state.rooms.filter(room => room._id !== action.payload._id)]}
+
         default:
             throw new Error('There is no action matches');
     }

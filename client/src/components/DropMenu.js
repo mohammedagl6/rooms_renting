@@ -18,7 +18,7 @@ const DropMenu = () => {
             <MenuIcon className="btn-menu" onClick={handleClick}/>
             { isMenuOpen && <div className="drop-menu">
                 <Link to="/room/create" onClick={handleClick} className="menu-link">My Rooms</Link>
-                <Link to="/room/book" onClick={handleClick} className="menu-link">Booked Rooms</Link>
+                <Link to="/room/bookings" onClick={handleClick} className="menu-link">Booked Rooms</Link>
                 <button onClick={()=> logout(dispatch)}>Logout</button> 
             </div>}
         </div>

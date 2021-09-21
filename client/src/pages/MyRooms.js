@@ -21,9 +21,7 @@ const MyRooms = () => {
 
     const userId = user?.result?.googleId || user?.result?._id
     const userRooms = rooms.filter(room => room.ownerId === userId)
-    console.log("rooms", rooms)
-    console.log("userRooms", userRooms)
-    console.log("userId", user)
+    
     return (
         <>
         <section className="form-container">

@@ -4,7 +4,6 @@ import { context } from '../context/context'
 
 const RoomsList = () => {
     const {state: { filteredRooms }} = useContext(context);
-    
     if (!filteredRooms.length){
         return(
             <div className="empty-search">
