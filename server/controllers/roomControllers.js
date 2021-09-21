@@ -1,5 +1,6 @@
 import Room from '../models/Room.js'
 import mongoose from 'mongoose';
+import paypal from '@paypal/checkout-server-sdk'
 
 
 export const createRoom = async (req, res) => {
@@ -82,5 +83,66 @@ export const bookRoom = async (req, res) => {
     } catch (error) {
         console.log(error)
         res.status(500).json({success:false, msg: "Something went wrong. Try later"})
+    }
+}
+
+export const bookRoomPayPal = async (req, res) => {
+    if(!req?.userId) return res.status(401).json({success:false, msg: "You are not authorized to do this action."})
+    const {id: _id} = req.body
+    const result = await Room.findById(_id);
+    if (!result) return res.status(404).json({success:false, msg: "No room with this id"})
+
+    const Environment = 
+    process.env.NODE_ENV === 'PRODUCTION' ?
+    paypal.core.LiveEnvironment :
+    paypal.core.SandboxEnvironment
+    
+    const paypalClient = new paypal.core.PayPalHttpClient(
+        new Environment(
+            process.env.PAYPAL_CLIENT_ID,
+            process.env.PAYPAL_CLIENT_SECRET
+        )
+    )
+    
+    const request = new paypal.orders.OrdersCreateRequest();
+    request.prefer("return=representation")
+    request.requestBody({
+        intent: "CAPTURE",
+        purchase_units: [
+            {
+
+                amount: {
+                    currency_code: "USD",
+                    value: result.price,
+                    breakdown: {
+                        item_total: {
+                            currency_code: "USD",
+                            value: result.price,
+                        },
+                    },
+                },
+                items: [
+                    {
+                        name: `${result.street}, ${result.city}`,
+                        unit_amount: {
+                            currency_code: "USD",
+                            value: result.price,
+                        },
+                        quantity: 1,
+                    },
+                ]
+
+            }
+        ]
+    })
+
+    try {
+        const order = await paypalClient.execute(request)
+        const updatedRoom = await Room.findByIdAndUpdate(_id, { bookedBy: req.userId}, {new: true})
+        res.status(200).json({success:true, result: updatedRoom, PayPalId: order.result.id })
+        console.log(order.result.id)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({success:false,  msg: "something went wrong"})
     }
 }

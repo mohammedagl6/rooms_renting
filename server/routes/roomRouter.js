@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getRooms, createRoom, getRoom, deleteRoom, updateRoom, bookRoom } from '../controllers/roomControllers.js'
+import { getRooms, createRoom, getRoom, deleteRoom, updateRoom, bookRoom, bookRoomPayPal } from '../controllers/roomControllers.js'
 import auth from "../middleware/auth.js";
 
 const roomRouter = Router();
@@ -15,5 +15,6 @@ roomRouter.patch("/", auth, updateRoom)
 roomRouter.delete("/", auth, deleteRoom )
 
 roomRouter.post("/book", auth, bookRoom)
+roomRouter.post("/bookPayPal", auth, bookRoomPayPal)
 
 export default roomRouter;

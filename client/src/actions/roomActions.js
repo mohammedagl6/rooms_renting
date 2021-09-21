@@ -123,3 +123,24 @@ export const bookRoom = async (id, user, dispatch) => {
         return false
     }
 }
+
+export const bookRoomPayPal = async (id, user, dispatch) => {
+    // dispatch({type: START_LOADING})
+    try {
+        const response = await fetch(url+"/bookPayPal", {
+            method: "POST",
+            headers: {'Content-Type': 'application/json', authorization: `Bearer ${user?.token}`},
+            body: JSON.stringify({id})
+        })
+        const data = await response.json()
+        if(data.success){
+            dispatch({type:BOOK_ROOM, payload: data.result})
+        }
+        // dispatch({type: END_LOADING})
+        return {success: data.success, id: data?.PayPalId}
+    } catch (error) {
+        console.log(error)
+        // dispatch({type: END_LOADING})
+        return {success: false, id: null}
+    }
+}

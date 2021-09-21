@@ -3,6 +3,7 @@ import { useParams, useHistory } from "react-router-dom"
 import Loading from "../components/Loading";
 import { context } from "../context/context";
 import { bookRoom } from "../actions/roomActions"
+import PayPal from "../components/PayPal";
 
 
 const BookRoom = () => {
@@ -40,7 +41,11 @@ const BookRoom = () => {
                 </div>
             </div>
             <div className="btn-container">
-                <button className="btn-primary" onClick={handleClick}>Confirm Booking</button>
+                { price > 0 ?
+                    <PayPal roomId={id}/>
+                    :
+                    <button className="btn-primary" onClick={handleClick}>Confirm Booking</button>
+                }
             </div>
         </section>
     )
