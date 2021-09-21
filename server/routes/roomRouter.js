@@ -12,6 +12,6 @@ roomRouter.get("/:id", getRoom);
 roomRouter.post("/", auth, createRoom)
 roomRouter.patch("/", auth, updateRoom)
 
-roomRouter.delete("/", deleteRoom )
+roomRouter.delete("/", auth, deleteRoom )
 
 export default roomRouter;
