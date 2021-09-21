@@ -19,16 +19,18 @@ const RoomsFilter = () => {
     useEffect(()=> {
         setPrice(maxPrice)
     }, [maxPrice])
+
+    useEffect(()=>{
+        filterRooms(rooms, city, price, dispatch)
+    }, [city, price])
    
     const handleChange = async (e)=>{
 
         if(e.target.name === 'price') {
             setPrice(e.target.value)
-            filterRooms(rooms, city, e.target.value, dispatch)
         }
         if(e.target.name === 'city') {
             setCity(e.target.value)
-            filterRooms(rooms, e.target.value, price, dispatch)
         }
             
 
@@ -42,7 +44,7 @@ const RoomsFilter = () => {
                 <div />
             </div>
             <form className="filter-form">
-                <City filter={true} handleChange={ handleChange }/>
+                <City filter={true} handleChange={ handleChange } cityValue={city} />
                 <div className="form-group">
                     <label htmlFor="price">Room Price ${price}</label>
                     <input 

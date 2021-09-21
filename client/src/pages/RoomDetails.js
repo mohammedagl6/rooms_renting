@@ -4,7 +4,7 @@ import { getRoom } from '../actions/roomActions';
 import { useState, useEffect, useContext } from 'react';
 import { context } from '../context/context';
 import Loading from '../components/Loading';
-
+import moment from 'moment'
 
 
 const RoomDetails = () => {
@@ -24,7 +24,7 @@ const RoomDetails = () => {
     
     if(state.isLoading) return <Loading />
 
-    const {price, street, house, city, image, description} = room;
+    const {price, street, house, city, image, description, createdAt} = room;
    
     if(!city){
         return(
@@ -51,18 +51,10 @@ const RoomDetails = () => {
                         <h3>info</h3>
                         <h6>Price: {price}</h6>
                         <h6>Address: {street} {house}, {city}</h6>
+                        <h6>Added: {moment(createdAt).fromNow()} </h6>
                     </article>
                 </div>
             </section>
-            {/* <section className="room-extras">
-                <h6>extras</h6>
-                <ul className="extras">
-                    <li>- Comfortable beds</li>
-                    <li>- Comfortable beds</li>
-                    <li>- Comfortable beds</li>
-                    <li>- Comfortable beds</li>
-                </ul>
-            </section> */}
         </>
     )
 
