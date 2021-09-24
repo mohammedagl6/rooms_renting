@@ -5,10 +5,12 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import { createRoom, updateRoom } from "../actions/roomActions";
 import { context } from "../context/context";
 import City from "../components/City"
+import Alert from "./Alert";
+import { showAlert } from "../actions/alertActions";
 
 const RoomForm = ({room, setRoom}) => {
 
-    const {state: {user}, dispatch} = useContext(context);
+    const {state: {user, alert}, dispatch} = useContext(context);
     
    
 
@@ -31,16 +33,20 @@ const RoomForm = ({room, setRoom}) => {
         roomImg.current.value = null
     
     }
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         let status
+        if (room?.city === '') return showAlert("danger", "Please select city", dispatch)
+        if (room?.image === '') return showAlert("danger", "Please select image", dispatch)
         if(room?._id){
             status = await updateRoom(room, user, dispatch);
         }else{
             status = await createRoom(room, user, dispatch);
         }
         if(status){
+            showAlert("success", `The room ${room?._id ? 'updated' : 'added'} successfully`, dispatch)
             setRoom({
                 price: 0,
                 street: '',
@@ -51,9 +57,8 @@ const RoomForm = ({room, setRoom}) => {
                 _id: null,
             });
             roomImg.current.value = null
-            alert(room?._id ? "The room updated successfully" : "The room added successfully" )
         }else{
-            alert(room?._id ? 'The room was not updated. try again' : 'The room was not added. try again')
+            showAlert("danger", `The room was not ${room?._id ? 'updated' : 'added'} successfully. try again`, dispatch)
         }
         
     }
@@ -61,6 +66,7 @@ const RoomForm = ({room, setRoom}) => {
     return(
         
         <form onSubmit={handleSubmit}>
+            {alert.isAlert && <Alert />}
             <div className="fields-container">
                 <div className="form-group">
                     <label htmlFor="price">Price per day (0 = free stay):</label>

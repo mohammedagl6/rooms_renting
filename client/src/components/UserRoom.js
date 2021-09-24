@@ -4,6 +4,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { useContext, useState } from 'react';
 import { context } from '../context/context';
 import { deleteRoom } from '../actions/roomActions';
+import { showAlert } from '../actions/alertActions';
 
 const UserRoom = ({room, setRoom}) => {
     const {state: {user}, dispatch} = useContext( context )
@@ -13,9 +14,7 @@ const UserRoom = ({room, setRoom}) => {
     const handleDelete = async (roomId) => {
         const status = await deleteRoom(roomId, user, dispatch)
         if(status){
-            alert("The room deleted successfully")
-        }else{
-            alert('The room was not deleted! something went Wrong')
+            showAlert('danger', 'The room was not deleted! something went Wrong', dispatch)
         }
     }
 
