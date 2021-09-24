@@ -1,12 +1,14 @@
 import CancelIcon from '@material-ui/icons/Cancel';
 import { useContext, useState } from 'react';
+import { showAlert } from '../actions/alertActions';
 import { login } from '../actions/userActions';
 import { context } from '../context/context';
+import Alert from './Alert';
 import GoogleLogin from './GoogleLogin'
 
 const Login = ({ setIsLogin }) => {
 
-    const {dispatch} = useContext( context )
+    const {state: {alert}, dispatch} = useContext( context )
 
     const [userForm, setUserForm] = useState({
         email: '',
@@ -23,7 +25,7 @@ const Login = ({ setIsLogin }) => {
         if(response.success){
             setIsLogin(false)
         }else{
-            alert(response.msg)
+            showAlert("danger", response.msg, dispatch)
         }
     }
 
@@ -32,6 +34,7 @@ const Login = ({ setIsLogin }) => {
             <div className="modal-background"></div>
             <div className="modal">
                 <CancelIcon className="cancel-modal" onClick={() => setIsLogin(false)}/>
+                {alert.isAlert && <Alert />}
                 <form onSubmit={handleSubmit}>
                     <div className="fields-container">
                         <div className="form-group">

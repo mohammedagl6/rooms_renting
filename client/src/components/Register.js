@@ -1,12 +1,14 @@
 import CancelIcon from '@material-ui/icons/Cancel';
 import { useContext, useState } from 'react';
+import { showAlert } from '../actions/alertActions';
 import { register } from '../actions/userActions';
 import { context } from '../context/context';
+import Alert from './Alert';
 
 
 
 const Register  = ({ setIsRegister }) => {
-    const {dispatch} = useContext( context )
+    const {state: {alert}, dispatch} = useContext( context )
     const [userForm, setUserForm] = useState({
         firstName: '',
         lastName: '',
@@ -22,12 +24,12 @@ const Register  = ({ setIsRegister }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        if (userForm.password !== userForm.confirmPassword) return showAlert("danger", "Passwords don't match", dispatch)
         const response = await register(userForm, dispatch)
         if(response?.success){
-            alert("Account created successfully")
             setIsRegister(false)
         }else{
-            alert(response?.err || response?.msg)
+            showAlert('danger', response.msg, dispatch)
         }
     }
 
@@ -36,6 +38,7 @@ const Register  = ({ setIsRegister }) => {
             <div className="modal-background"></div>
             <div className="modal">
                 <CancelIcon className="cancel-modal" onClick={() => setIsRegister(false)}/>
+                {alert.isAlert && <Alert />}
                 <form onSubmit={handleSubmit}>
                     <div className="fields-container">
                         <div className="form-group">

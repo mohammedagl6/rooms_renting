@@ -7,6 +7,7 @@ const initialState = {
     filteredRooms: [],
     user: {},
     isLoading: true,
+    alert: {isAlert: false, type: '', message: ''},
 }
 
 

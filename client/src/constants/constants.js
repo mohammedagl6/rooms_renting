@@ -15,3 +15,6 @@ export const DELETE_ROOM = 'DELETE_ROOM'
 export const UPDATE_ROOM = 'UPDATE_ROOM'
 
 export const BOOK_ROOM = 'BOOK_ROOM'
+
+export const SHOW_ALERT = 'SHOW_ALERT'
+export const CLOSE_ALERT = 'CLOSE_ALERT'

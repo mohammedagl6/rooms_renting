@@ -1,6 +1,7 @@
 import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js'
 import { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import { showAlert } from '../actions/alertActions';
 import { bookRoomPayPal } from '../actions/roomActions';
 import { context } from '../context/context';
 
@@ -26,12 +27,11 @@ const PayPal = ({roomId}) => {
         try {
             const details = await actions.order.capture()
             console.log("details:", details)
-            alert("booking finished successfully")
             history.push("/room/bookings")
             return details;
         } catch (error) {
             console.log(error)
-            alert("Something went wrong with payment")
+            showAlert('danger', 'Something went wrong with payment', dispatch)
         }
     }
 
