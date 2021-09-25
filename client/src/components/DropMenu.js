@@ -1,5 +1,5 @@
 import MenuIcon from '@material-ui/icons/Menu';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { context } from "../context/context"
 import { logout } from '../actions/userActions';
@@ -13,6 +13,21 @@ const DropMenu = () => {
     const handleClick = () => {
         setIsMenuOpen(!isMenuOpen)
     }
+
+    const handleClickListener = (e) => {
+        if(isMenuOpen){
+
+            setIsMenuOpen(false)
+        }
+    }
+
+    useEffect(() => {
+        document.addEventListener('click', handleClickListener)
+        return () => {
+            document.removeEventListener('click', handleClickListener)
+        }
+    }, [isMenuOpen])
+
     return (
         <div className="menu-container">
             <MenuIcon className="btn-menu" onClick={handleClick}/>

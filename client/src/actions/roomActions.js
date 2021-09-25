@@ -1,9 +1,9 @@
-import { CREATE_ROOM, END_LOADING, GET_ROOMS, START_LOADING, FILTER_ROOMS, DELETE_ROOM, UPDATE_ROOM, BOOK_ROOM } from "../constants/constants"
+import { END_LOADING, GET_ROOMS, START_LOADING, FILTER_ROOMS, BOOK_ROOM } from "../constants/constants"
 
 
 const url = process.env.REACT_APP_API_URL + 'room';
 
-export const createRoom = async (room, user, dispatch) => {
+export const createRoom = async (room, user) => {
     try {
         const response = await fetch(url, {
             method: "POST",
@@ -11,15 +11,14 @@ export const createRoom = async (room, user, dispatch) => {
             body: JSON.stringify(room)
         });
         const data = await response.json();
-        if(data.success) dispatch({type: CREATE_ROOM, payload:data.result})
-        return data.success;
+        return data;
     } catch (error) {
         console.log(error)
-        return false;
+        return {success:false, msg: "Something went wrong!"};
     }
 }
 
-export const updateRoom = async (room, user, dispatch) => {
+export const updateRoom = async (room, user) => {
     
     try {
         const response = await fetch(url, {
@@ -28,11 +27,10 @@ export const updateRoom = async (room, user, dispatch) => {
             body: JSON.stringify(room)
         })
         const data = await response.json()
-       if(data.success) dispatch({type: UPDATE_ROOM, payload: data.result})
-       return data.success
+       return data
     } catch (error) {
         console.log(error)
-        return false
+        return {success:false, msg: "Something went wrong!"}
     }
 }
 
@@ -48,6 +46,38 @@ export const getRooms = async (dispatch) => {
         console.log(error)
     }
     dispatch({type: END_LOADING})
+}
+
+export const getUserRooms = async (user, dispatch) => {
+    dispatch({type: START_LOADING})
+    try {
+        const response = await fetch(url+"/userRooms", {
+            headers: { authorization: `Bearer ${user?.token}` }
+        })
+        const data = response.json()
+        dispatch({type: END_LOADING})
+        return data
+    } catch (error) {
+        console.log(error)
+        dispatch({type: END_LOADING})
+        return {success:false, msg: 'Something went wrong!'}
+    }
+}
+
+export const getBookedRooms = async (user, dispatch) => {
+    dispatch({type: START_LOADING})
+    try {
+        const response = await fetch(url+"/bookedRooms", {
+            headers: { authorization: `Bearer ${user?.token}` }
+        })
+        const data = response.json()
+        dispatch({type: END_LOADING})
+        return data
+    } catch (error) {
+        console.log(error)
+        dispatch({type: END_LOADING})
+        return {success:false, msg: 'Something went wrong!'}
+    }
 }
 
 export const getRoom = async (roomId, dispatch) => {
@@ -85,7 +115,7 @@ export const filterRooms = (rooms, city, price, dispatch) => {
     dispatch({ type: FILTER_ROOMS , payload: filteredRooms})
 }
 
-export const deleteRoom = async (roomId, user, dispatch) => {
+export const deleteRoom = async (roomId, user) => {
     try {
         const response = await fetch(url, {
             method: "DELETE",
@@ -93,13 +123,10 @@ export const deleteRoom = async (roomId, user, dispatch) => {
             body: JSON.stringify({id: roomId})
         })
         const data = await response.json()
-        if(data.success){
-            dispatch({type: DELETE_ROOM, payload: roomId})
-        }
-        return data.success
+        return data
     } catch (error) {
         console.log(error)
-        return false
+        return {success: false, msg: 'Something went wrong!'}
     }
 }
 
@@ -112,15 +139,12 @@ export const bookRoom = async (id, user, dispatch) => {
             body: JSON.stringify({id})
         })
         const data = await response.json()
-        if(data.success){
-            dispatch({type:BOOK_ROOM, payload: data.result})
-        }
         dispatch({type: END_LOADING})
-        return data.success
+        return data
     } catch (error) {
         console.log(error)
         dispatch({type: END_LOADING})
-        return false
+        return {success: false, msg: 'Something went wrong'}
     }
 }
 
@@ -133,14 +157,27 @@ export const bookRoomPayPal = async (id, user, dispatch) => {
             body: JSON.stringify({id})
         })
         const data = await response.json()
-        if(data.success){
-            dispatch({type:BOOK_ROOM, payload: data.result})
-        }
+        
         // dispatch({type: END_LOADING})
-        return {success: data.success, id: data?.PayPalId}
+        return {success: data.success, id: data?.PayPalId, msg: data?.msg}
     } catch (error) {
         console.log(error)
         // dispatch({type: END_LOADING})
-        return {success: false, id: null}
+        return {success: false, id: null, msg: 'Something went wrong'}
     }
+}
+
+export const cancelBooking = async (id, user) => {
+    try{
+        const response = await fetch (url + "/cancelBooking", {
+            method: "POST",
+            headers: {'Content-Type' : 'application/json', authorization: `Bearer ${user?.token}`},
+            body: JSON.stringify({id})
+        })
+        const data = await response.json()
+        return data
+    } catch (error){
+        console.log(error)
+        return {success:false}
+    }   
 }

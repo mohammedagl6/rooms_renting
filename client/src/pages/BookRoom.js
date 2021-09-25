@@ -1,29 +1,33 @@
 import { useContext } from "react";
 import { useParams, useHistory } from "react-router-dom"
-import Loading from "../components/Loading";
 import { context } from "../context/context";
 import { bookRoom } from "../actions/roomActions"
 import PayPal from "../components/PayPal";
 import Alert from "../components/Alert";
 import { showAlert } from "../actions/alertActions";
+import Error from "./Error";
+import { Link } from "react-router-dom";
 
 
 const BookRoom = () => {
     const {id} = useParams();
     const history = useHistory()
-    const {state: {rooms, user, isLoading, alert}, dispatch} = useContext( context )
-    if(isLoading) return <Loading />
+    const {state: {rooms, user, alert}, dispatch} = useContext( context )
     const room = rooms.find(room => room._id === id)
+    if(!room?._id) return <Error message="OOPs! No direct access" />
     const {image, street, city, price} = room
     
     const handleClick = async () => {
         const response = await bookRoom(id, user, dispatch)
-        if (response){
+        if (response.success){
             history.push("/room/bookings")
         }else{
-            showAlert('danger', 'Room was not booked. Try again later', dispatch)
+            showAlert('danger', response.msg, dispatch)
         }
     }
+    const userId = user?.result?.googleId || user?.result?._id
+    if (userId === room?.ownerId)  return <Error message="You are not allowed to do this action!" />
+    
     return (
         <section className="form-container">
             <div className="section-title">
@@ -32,7 +36,9 @@ const BookRoom = () => {
             </div>
             <div className="fields-container checkout-card">
                 <div className="form-group">
-                    <img src={image} alt={city} width="200"/>
+                    <Link to={`/room/${id}`}>
+                        <img src={image} alt={city} width="200"/>
+                    </Link>
                 </div>
                 <div className="form-group">
                     <label>{street}, {city}</label>

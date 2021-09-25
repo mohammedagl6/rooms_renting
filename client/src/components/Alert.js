@@ -14,7 +14,7 @@ const Alert = () => {
 
         alertTime.current = setTimeout(()=>{
             dispatch({type: CLOSE_ALERT})
-        }, 7000)
+        }, 5000)
         return () => {
             clearTimeout(alertTime.current)
         }

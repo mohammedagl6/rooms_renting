@@ -6,19 +6,13 @@ import RoomDetails from './pages/RoomDetails';
 import Error from './pages/Error'
 import MyRooms from './pages/MyRooms'
 import Protected from './pages/Protected';
-import { useContext, useEffect } from 'react';
-import { getRooms } from './actions/roomActions';
-import { context } from './context/context';
 import BookRoom from './pages/BookRoom';
-import MyBookings from './pages/Mybookings';
+import MyBookings from './pages/MyBookings';
 
 
 const  App = () => {
 
-  const {dispatch} = useContext(context)
-    useEffect(() => {
-        getRooms(dispatch)
-    }, [dispatch])
+  
 
   return (
     <>
@@ -47,7 +41,7 @@ const  App = () => {
            <RoomDetails />
          </Route>
          <Route>
-           <Error />
+           <Error message="Page not found!" />
          </Route>
        </Switch>
      </Router>

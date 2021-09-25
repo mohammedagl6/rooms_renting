@@ -8,7 +8,7 @@ import City from "../components/City"
 import Alert from "./Alert";
 import { showAlert } from "../actions/alertActions";
 
-const RoomForm = ({room, setRoom}) => {
+const RoomForm = ({room, setRoom, userRooms, setUserRooms}) => {
 
     const {state: {user, alert}, dispatch} = useContext(context);
     
@@ -37,15 +37,17 @@ const RoomForm = ({room, setRoom}) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        let status
+        let response
         if (room?.city === '') return showAlert("danger", "Please select city", dispatch)
         if (room?.image === '') return showAlert("danger", "Please select image", dispatch)
         if(room?._id){
-            status = await updateRoom(room, user, dispatch);
+            response = await updateRoom(room, user);
+            if(response.success) setUserRooms([response.result, ...userRooms.filter(userRoom => userRoom._id !== room._id)])
         }else{
-            status = await createRoom(room, user, dispatch);
+            response = await createRoom(room, user);
+            if (response.success) setUserRooms([response.result, ...userRooms])
         }
-        if(status){
+        if(response.success){
             showAlert("success", `The room ${room?._id ? 'updated' : 'added'} successfully`, dispatch)
             setRoom({
                 price: 0,

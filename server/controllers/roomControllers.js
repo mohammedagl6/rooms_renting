@@ -7,7 +7,7 @@ export const createRoom = async (req, res) => {
     if(!req?.userId) return res.status(401).json({success:false, msg:"You are not authorized to do this action!"})
     const room = req.body;
     if(req.body._id === null) {
-        delete req.body._id; // this is to be sure that mongoose does not return _id:null in the result
+        delete req.body._id; // this is to be sure that mongoose does not return _id:null in the result or change the name of the _id
     }
     const newRoom = new Room({...room, createdAt: new Date().toISOString(), ownerId: req.userId});
     try {
@@ -35,12 +35,39 @@ export const updateRoom = async (req, res) => {
 
 export const getRooms = async (req, res) => {
     
-    const limit = 20;
+    const limit = 30;
     try {
-        const rooms = await Room.find().sort({_id: -1}).limit(limit);
+        const rooms = await Room.find({bookedBy: ''}).sort({_id: -1}).limit(limit);
         res.status(200).json({success:true, result: rooms})
     } catch (error) {
         res.status(404).json({success: false, err:error.message})
+    }
+}
+
+export const getUserRooms = async (req, res) => {
+
+    if(!req?.userId) return res.status(401).json({success:false, msg: "You are not authorized to do this action."})
+
+    const limit = 20
+    try {
+        const rooms = await Room.find({ownerId: req.userId}).sort({_id: -1}).limit(limit)
+        res.status(200).json({success: true, result: rooms})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({success:false, msg: "Something went Wrong!"})
+    }
+}
+
+export const getBookedRooms = async (req, res) => {
+    if(!req?.userId) return res.status(401).json({success:false, msg: "You are not authorized to do this action."})
+
+    const limit = 20
+    try {
+        const rooms = await Room.find({bookedBy: req.userId}).sort({_id: -1}).limit(limit)
+        res.status(200).json({success: true, result: rooms})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({success:false, msg: "Something went Wrong!"})
     }
 }
 
@@ -76,10 +103,13 @@ export const bookRoom = async (req, res) => {
     if(!req?.userId) return res.status(401).json({success:false, msg: "You are not authorized to do this action."})
     const {id: _id} = req.body
     try {
-        const result = await Room.findById(_id);
+        let result = await Room.find({bookedBy: req.userId, price: 0})
+        if(result.length) return res.status(400).json({success:false, msg: 'You already booked another free room'})
+        result = await Room.findById(_id);
         if (!result) return res.status(404).json({success:false, msg: "No room with this id"})
+        if(result.price > 0) return res.status(400).json({success:false, msg: "You can't book this room this way"})
         const updatedRoom = await Room.findByIdAndUpdate(_id, { bookedBy: req.userId}, {new: true})
-        res.status(200).json({success:true, result: updatedRoom})
+        res.status(200).json({success:true, msg: 'Room booked successfully'})
     } catch (error) {
         console.log(error)
         res.status(500).json({success:false, msg: "Something went wrong. Try later"})
@@ -89,8 +119,13 @@ export const bookRoom = async (req, res) => {
 export const bookRoomPayPal = async (req, res) => {
     if(!req?.userId) return res.status(401).json({success:false, msg: "You are not authorized to do this action."})
     const {id: _id} = req.body
-    const result = await Room.findById(_id);
-    if (!result) return res.status(404).json({success:false, msg: "No room with this id"})
+    try {
+        const result = await Room.findById(_id);
+        if (!result) return res.status(404).json({success:false, msg: "No room with this id"})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({success:false,  msg: "something went wrong"})
+    }
 
     const Environment = 
     process.env.NODE_ENV === 'PRODUCTION' ?
@@ -141,6 +176,20 @@ export const bookRoomPayPal = async (req, res) => {
         const updatedRoom = await Room.findByIdAndUpdate(_id, { bookedBy: req.userId}, {new: true})
         res.status(200).json({success:true, result: updatedRoom, PayPalId: order.result.id })
         console.log(order.result.id)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({success:false,  msg: "something went wrong"})
+    }
+}
+
+export const cancelBooking = async (req, res) => {
+    if(!req?.userId) return res.status(401).json({success:false, msg: "You are not authorized to do this action."})
+    const {id: _id} = req.body
+    try {
+        const result = await Room.find({_id, bookedBy: req.userId})
+        if(!result.length) res.status(401).json({success: false, msg:"You are not allowed to do this action!"})
+        const updatedRoom = await Room.findByIdAndUpdate(_id, {bookedBy: ""}, {new: true})
+        res.status(200).json({success: true, msg: 'The booking canceled successfully'})
     } catch (error) {
         console.log(error)
         res.status(500).json({success:false,  msg: "something went wrong"})
