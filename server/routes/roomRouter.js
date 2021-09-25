@@ -1,11 +1,15 @@
 import { Router } from "express";
-import { getRooms, createRoom, getRoom, deleteRoom, updateRoom, bookRoom, bookRoomPayPal } from '../controllers/roomControllers.js'
+import { getRooms, getUserRooms, getBookedRooms, createRoom, getRoom, deleteRoom, updateRoom, bookRoom, bookRoomPayPal, cancelBooking } from '../controllers/roomControllers.js'
 import auth from "../middleware/auth.js";
 
 const roomRouter = Router();
 
 
 roomRouter.get("/", getRooms);
+
+roomRouter.get("/userRooms", auth,  getUserRooms)
+roomRouter.get("/bookedRooms", auth,  getBookedRooms)
+roomRouter.post("/cancelBooking", auth,  cancelBooking)
 
 roomRouter.get("/:id", getRoom);
 

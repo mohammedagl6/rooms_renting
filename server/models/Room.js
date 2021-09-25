@@ -9,7 +9,7 @@ const roomSchema = mongoose.Schema({
     description: String,
     createdAt: {type: Date, default: new Date()},
     ownerId: {type: String, required: true},
-    bookedBy: String,
+    bookedBy: {type: String, default: ''},
 })
 
 

@@ -1,13 +1,14 @@
-import { useContext , useState} from "react"
+import { useContext , useEffect, useState} from "react"
 import RoomForm from "../components/RoomForm"
 import { context } from "../context/context"
 import UserRoom from "../components/UserRoom"
 import Loading from "../components/Loading"
+import { getUserRooms } from "../actions/roomActions"
 
 
 
 const MyRooms = () => {
-    const {state: { rooms, user, isLoading }} = useContext( context )
+    const {state: { user, isLoading }, dispatch} = useContext( context )
 
     const [room, setRoom] = useState({
         price: 0,
@@ -19,8 +20,17 @@ const MyRooms = () => {
         _id: null,
     });
 
-    const userId = user?.result?.googleId || user?.result?._id
-    const userRooms = rooms.filter(room => room.ownerId === userId)
+    const [userRooms, setUserRooms] = useState([])
+    
+    useEffect(() => {
+        const fetchRooms = async () => {
+            const response = await getUserRooms(user, dispatch)
+            if(response.success){
+                setUserRooms(response.result)
+            }
+        }
+        fetchRooms()
+    }, [dispatch, user])
     
     return (
         <>
@@ -29,7 +39,7 @@ const MyRooms = () => {
                 <h4>{room?._id ? "Edit" : "Add Room"}</h4>
                 <div />
             </div>
-            <RoomForm room={room} setRoom={setRoom} />
+            <RoomForm room={room} setRoom={setRoom} userRooms={userRooms} setUserRooms={setUserRooms}/>
         </section>
         <section className="roomsList" style={{paddingTop:"0"}}>
             <div className="userRooms-title">
@@ -42,7 +52,7 @@ const MyRooms = () => {
                 </div>
                 :
                 <div className="roomsList-center">
-                {userRooms.map(room => <UserRoom room={room} key={room._id} setRoom={setRoom}/>)}
+                {userRooms.map(room => <UserRoom room={room} key={room._id} setRoom={setRoom} userRooms={userRooms} setUserRooms={setUserRooms}/>)}
                 </div>  
             }
         </section>

@@ -21,7 +21,7 @@ const Navbar = () => {
 
     useEffect(() => {
         if(!user?.token) {
-
+            
             const userProfile = JSON.parse(localStorage.getItem('profile'))
             if(userProfile?.token){
                 setUser(userProfile, dispatch)

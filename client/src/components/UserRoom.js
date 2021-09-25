@@ -5,15 +5,18 @@ import { useContext, useState } from 'react';
 import { context } from '../context/context';
 import { deleteRoom } from '../actions/roomActions';
 import { showAlert } from '../actions/alertActions';
+import MenuContainer from './MenuContainer';
 
-const UserRoom = ({room, setRoom}) => {
+const UserRoom = ({room, setRoom, userRooms, setUserRooms}) => {
     const {state: {user}, dispatch} = useContext( context )
     const { _id : roomId, price, street, city, image } = room
     const [isMenuOpen, setIsMenuOpen] = useState(false)
 
     const handleDelete = async (roomId) => {
-        const status = await deleteRoom(roomId, user, dispatch)
-        if(status){
+        const response = await deleteRoom(roomId, user, dispatch)
+        if(response.success){
+            setUserRooms(userRooms.filter(userRoom => userRoom._id !== roomId))
+        }else{
             showAlert('danger', 'The room was not deleted! something went Wrong', dispatch)
         }
     }
@@ -33,10 +36,10 @@ const UserRoom = ({room, setRoom}) => {
                 <MoreVertIcon fontSize="large"/>
             </div>
             { isMenuOpen && 
-            <div className="edit-menu">
+            <MenuContainer isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen}>
                 <button onClick={handleEdit}>Edit</button>
                 <button onClick={() => handleDelete(room._id)}>Delete</button>
-            </div>
+            </MenuContainer>
             }
             <div className="img-container">
                 <img src={image} alt="room" />

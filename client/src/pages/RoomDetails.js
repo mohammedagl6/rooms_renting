@@ -5,13 +5,14 @@ import { useState, useEffect, useContext } from 'react';
 import { context } from '../context/context';
 import Loading from '../components/Loading';
 import moment from 'moment'
+import Error from './Error'
 
 
 const RoomDetails = () => {
 
     const {id: roomId} = useParams();
     const [room, setRoom] = useState({})
-    const {dispatch, state} = useContext( context )
+    const {dispatch, state: {isLoading, user}} = useContext( context )
 
     useEffect( () => {
 
@@ -22,20 +23,15 @@ const RoomDetails = () => {
         fetchRoom()
     }, [roomId, dispatch])
     
-    if(state.isLoading) return <Loading />
+    if(isLoading) return <Loading />
 
     const {price, street, house, city, image, description, createdAt} = room;
    
     if(!city){
-        return(
-            <div className="error">
-                <h3>No such room could be found..</h3>
-                <Link to="/" className="btn-primary">
-                    back to the main page
-                </Link>
-            </div>
-        )
+        return <Error message="No such room could be found.." />
     }
+    const userId = user?.result?._id || user?.result?.googleId
+
     return(
         <div className="container">
             <section className="single-room">
@@ -54,9 +50,11 @@ const RoomDetails = () => {
                         <h6>Added: {moment(createdAt).fromNow()} </h6>
                     </article>
                 </div>
+                { (userId !== room.ownerId) &&
                 <div className="btn-container">
                     <Link to={`/room/book/${roomId}`} className="btn-primary">Book This room</Link>
                 </div>
+                }
             </section>
         </div>
     )

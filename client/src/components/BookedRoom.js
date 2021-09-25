@@ -1,16 +1,28 @@
 
 import { Link } from 'react-router-dom';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { cancelBooking } from '../actions/roomActions';
+import { context } from '../context/context';
+import { showAlert } from '../actions/alertActions';
+import MenuContainer from './MenuContainer';
 
 
-const BookedRoom = ({room}) => {
-   
+const BookedRoom = ({room, bookedRooms, setBookedRooms}) => {
+    const {state: {user}, dispatch} = useContext( context )
     const { _id : roomId, price, street, city, image } = room
 
     const [isMenuOpen, setIsMenuOpen] = useState(false)
 
-   
+   const handleClick = async () => {
+        const response = await cancelBooking(roomId, user)
+        if(response.success){
+            setBookedRooms(bookedRooms.filter(bookedRoom => bookedRoom._id !== roomId))
+            showAlert('success', response.msg, dispatch)
+        }else{
+            showAlert('danger', response.msg, dispatch)
+        }
+   }
 
     
 
@@ -20,9 +32,9 @@ const BookedRoom = ({room}) => {
                 <MoreVertIcon fontSize="large"/>
             </div>
             { isMenuOpen && 
-            <div className="edit-menu">
-                <button>Cancel Booking</button>
-            </div>
+            <MenuContainer  isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen}>
+                <button onClick={handleClick}>Cancel Booking</button>
+            </MenuContainer>
             }
             <div className="img-container">
                 <img src={image} alt="room" />
