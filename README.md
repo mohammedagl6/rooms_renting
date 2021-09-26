@@ -15,6 +15,7 @@
   - User can add new room, edit the room, and delete the room
   - User can book only one free of stay room and no limit for the rooms with cost using online payment
   - User can cancel the booking.
+  - ... more features and updates coming...
 
 ## Demo
 Here is a working live demo :  https://youarewelcome.netlify.app/
