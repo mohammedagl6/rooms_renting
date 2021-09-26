@@ -119,14 +119,15 @@ export const bookRoom = async (req, res) => {
 export const bookRoomPayPal = async (req, res) => {
     if(!req?.userId) return res.status(401).json({success:false, msg: "You are not authorized to do this action."})
     const {id: _id} = req.body
+    let result
     try {
-        const result = await Room.findById(_id);
+        result = await Room.findById(_id);
         if (!result) return res.status(404).json({success:false, msg: "No room with this id"})
     } catch (error) {
         console.log(error)
         res.status(500).json({success:false,  msg: "something went wrong"})
     }
-
+    
     const Environment = 
     process.env.NODE_ENV === 'PRODUCTION' ?
     paypal.core.LiveEnvironment :
@@ -139,7 +140,9 @@ export const bookRoomPayPal = async (req, res) => {
         )
     )
     
+    
     const request = new paypal.orders.OrdersCreateRequest();
+    
     request.prefer("return=representation")
     request.requestBody({
         intent: "CAPTURE",
@@ -170,12 +173,11 @@ export const bookRoomPayPal = async (req, res) => {
             }
         ]
     })
-
+    
     try {
         const order = await paypalClient.execute(request)
         const updatedRoom = await Room.findByIdAndUpdate(_id, { bookedBy: req.userId}, {new: true})
         res.status(200).json({success:true, result: updatedRoom, PayPalId: order.result.id })
-        console.log(order.result.id)
     } catch (error) {
         console.log(error)
         res.status(500).json({success:false,  msg: "something went wrong"})
