@@ -106,6 +106,7 @@ h6 {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
 }
 .nav-btn {
   background: transparent;
@@ -124,6 +125,7 @@ h6 {
   /* list-style-type: none; */
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
 }
 .nav-links button, a.menu-link {
   display: block;
@@ -430,12 +432,17 @@ input[type=range].form-control{
   padding: 5rem 0;
 }
 .fields-container{
-  width: 60vw;
+  /* width: 60vw; */
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(202px, 1fr));
   grid-row-gap: 2rem;
   grid-column-gap: 40px;
+}
+@media screen and (min-width: 560px) {
+  .fields-container {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
 }
 svg.upload-images{
   font-size: 3rem;
@@ -509,11 +516,13 @@ svg.upload-images{
   padding: 2rem;
   border-radius: 8px;
   position: relative;
+  max-height: 90vh;
+  overflow: auto;
 }
 .cancel-modal{
   position: absolute;
-  right: -35px;
-  top: -35px;
+  right: 0;
+  top: 0;
   cursor: pointer;
   font-size: 2.5rem !important;
 }
@@ -521,6 +530,15 @@ svg.upload-images{
   .modal {
     width: 70vw;
     padding: 4rem;
+  }
+}
+@media screen and (min-width: 1099px) {
+  .modal {
+    overflow: unset;
+  }
+  .cancel-modal{
+    right: -35px;
+    top:-35px;
   }
 }
 .google-container {

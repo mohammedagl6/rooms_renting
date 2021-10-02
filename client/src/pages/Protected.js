@@ -1,15 +1,14 @@
-import { useContext } from "react"
-import Error from "./Error"
-import { context } from "../context/context"
-
+import Error from './Error';
+import { useValue } from '../context/context';
 
 const Protected = ({ children }) => {
+  const {
+    state: { user },
+  } = useValue();
 
-    const {state: {user}} = useContext( context )
-    
-    if(user?.token) return children
+  if (user?.token) return children;
 
-    return <Error message="Register or login to access this page."/>
-}
+  return <Error message='Register or login to access this page.' />;
+};
 
-export default Protected
+export default Protected;
