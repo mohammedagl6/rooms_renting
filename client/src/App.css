@@ -5,7 +5,7 @@
 }
 :root {
   --primaryColor: #698f3f;
-  --lightGreen: #666F5D;
+  --lightGreen: #666f5d;
   --mainWhite: #fff;
   --offWhite: #f7f7f7;
   --mainBlack: #222;
@@ -127,7 +127,8 @@ h6 {
   align-items: center;
   flex-wrap: wrap;
 }
-.nav-links button, a.menu-link {
+.nav-links button,
+a.menu-link {
   display: block;
   text-decoration: none;
   margin-left: 1rem;
@@ -142,7 +143,8 @@ h6 {
   background: transparent;
   cursor: pointer;
 }
-.nav-links button:hover , a.menu-link:hover{
+.nav-links button:hover,
+a.menu-link:hover {
   color: var(--primaryColor);
 }
 
@@ -158,10 +160,10 @@ h6 {
     margin: 0 auto;
     /* display: flex; */
   }
-  
-  .nav-links button, a.menu-link {
+
+  .nav-links button,
+  a.menu-link {
     margin-left: 1rem;
-    
   }
 }
 /* end of navbar */
@@ -186,7 +188,6 @@ h6 {
 }
 /* end of Title */
 
-
 /* room */
 .room {
   box-shadow: var(--lightShadow);
@@ -208,7 +209,8 @@ h6 {
   transition: var(--mainTransition);
   height: 100%;
 }
-.price-top, .time-top {
+.price-top,
+.time-top {
   position: absolute;
   top: 0;
   left: 0;
@@ -220,13 +222,13 @@ h6 {
   text-align: center;
   transition: var(--mainTransition);
 }
-.time-top{
+.time-top {
   right: 0;
   left: auto;
   border-bottom-left-radius: 1rem;
   border-bottom-right-radius: 0;
-  opacity: .5;
-  font-size: .7rem;
+  opacity: 0.5;
+  font-size: 0.7rem;
 }
 .price-top h6 {
   margin-bottom: 0;
@@ -247,7 +249,8 @@ h6 {
 .img-container:hover img {
   opacity: 0.3;
 }
-.img-container:hover .price-top, .img-container:hover .time-top {
+.img-container:hover .price-top,
+.img-container:hover .time-top {
   opacity: 0;
 }
 .img-container:hover .room-link {
@@ -393,7 +396,7 @@ h6 {
   padding: 10px 5px;
   border-radius: 5px;
 }
-input[type=range].form-control{
+input[type='range'].form-control {
   padding: 10px 0;
 }
 .size-inputs {
@@ -425,13 +428,11 @@ input[type=range].form-control{
 }
 /* end of rooms fitler*/
 
-
-
 /* create room */
-.form-container{
+.form-container {
   padding: 5rem 0;
 }
-.fields-container{
+.fields-container {
   /* width: 60vw; */
   margin: 0 auto;
   display: grid;
@@ -444,30 +445,30 @@ input[type=range].form-control{
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   }
 }
-svg.upload-images{
+svg.upload-images {
   font-size: 3rem;
   color: var(--primaryColor);
   cursor: pointer;
   display: block;
 }
-.selectedImg-container{
+.selectedImg-container {
   padding: 0 20px 10px 20px;
   position: relative;
 }
 
-.selectedImg{
+.selectedImg {
   width: 100%;
   object-fit: cover;
 }
 
-.cancel-selectedImg{
+.cancel-selectedImg {
   position: absolute;
   top: 0;
   right: 20px;
   cursor: pointer;
   /* opacity: 0.7; */
 }
-.btn-container{
+.btn-container {
   text-align: center;
   margin-top: 20px;
 }
@@ -480,12 +481,10 @@ svg.upload-images{
 }
 /* end of create room */
 
-
-
 /* modal */
 
 .modal-container {
-  transition: opacity .3s ease;
+  transition: opacity 0.3s ease;
   position: fixed;
   top: 0;
   left: 0;
@@ -502,11 +501,11 @@ svg.upload-images{
   position: fixed;
   top: 0;
   left: 0;
-  content: "";
+  content: '';
   display: inline-block;
   height: 100%;
   vertical-align: middle;
-  opacity: .95;
+  opacity: 0.95;
 }
 .modal {
   box-shadow: 0 0 15px 0 rgb(0 22 63 / 15%);
@@ -519,7 +518,7 @@ svg.upload-images{
   max-height: 90vh;
   overflow: auto;
 }
-.cancel-modal{
+.cancel-modal {
   position: absolute;
   right: 0;
   top: 0;
@@ -536,9 +535,9 @@ svg.upload-images{
   .modal {
     overflow: unset;
   }
-  .cancel-modal{
+  .cancel-modal {
     right: -35px;
-    top:-35px;
+    top: -35px;
   }
 }
 .google-container {
@@ -546,16 +545,16 @@ svg.upload-images{
   justify-content: flex-end;
   margin-top: 1rem;
 }
-.btn-google{
+.btn-google {
   background: transparent;
   border: transparent;
   cursor: pointer;
   font-size: 0.9rem;
   padding-left: 5px;
-  transition: color .3s ease-in;
+  transition: color 0.3s ease-in;
 }
 .btn-google:hover {
-  color: var(--primaryColor)
+  color: var(--primaryColor);
 }
 /* end of modal */
 
@@ -563,10 +562,10 @@ svg.upload-images{
 .menu-container {
   position: relative;
 }
-.drop-menu{
+.drop-menu {
   position: fixed;
   top: 65px;
-  right:20px;
+  right: 20px;
   background-color: #fff;
   z-index: 3;
   border-radius: 16px;
@@ -581,13 +580,14 @@ svg.upload-images{
   position: absolute;
   width: 0;
   height: 0;
-  content: "";
+  content: '';
   z-index: 2;
   border-bottom: 8px solid #fff;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
 }
-.drop-menu button, .drop-menu a {
+.drop-menu button,
+.drop-menu a {
   margin-left: 0;
 }
 svg.btn-menu {
@@ -596,7 +596,7 @@ svg.btn-menu {
   cursor: pointer;
 }
 @media screen and (min-width: 1228px) {
-  .drop-menu{
+  .drop-menu {
     right: calc((100vw - 1170px) / 2);
   }
 }
@@ -626,7 +626,7 @@ svg.btn-menu {
 .edit-icon {
   position: absolute;
   right: 0;
-  color:white;
+  color: white;
   z-index: 1;
   cursor: pointer;
   background-color: rgb(0 22 63 / 15%);
@@ -650,7 +650,7 @@ svg.btn-menu {
   position: absolute;
   width: 0;
   height: 0;
-  content: "";
+  content: '';
   z-index: 2;
   border-bottom: 8px solid #fff;
   border-left: 8px solid transparent;
@@ -676,7 +676,7 @@ svg.btn-menu {
 /* end of user rooms */
 
 /* room booking */
-.checkout-card{
+.checkout-card {
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -685,19 +685,18 @@ svg.btn-menu {
 
 /* end of room booking */
 
-
 /*  Notification */
 .alert {
   max-width: 1170px;
   position: relative;
-  padding: .75rem 1.25rem;
+  padding: 0.75rem 1.25rem;
   margin-bottom: 1rem;
   border: 1px solid transparent;
-  border-radius: .25rem;
+  border-radius: 0.25rem;
   margin: 1rem auto;
   text-align: center;
 }
-.success{
+.success {
   color: #155724;
   background-color: #d4edda;
   border-color: #c3e6cb;
@@ -707,10 +706,10 @@ svg.btn-menu {
   background-color: #f8d7da;
   border-color: #f5c6cb;
 }
-.cancel-alert{
+.cancel-alert {
   position: absolute;
   right: 0;
-  top:0;
+  top: 0;
   cursor: pointer;
 }
 /* end of Notification */
